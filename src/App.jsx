@@ -1,7 +1,23 @@
-import { Link } from 'react-router'
+import { Link, useLoaderData } from 'react-router'
 import './App.css'
+import { useContext } from 'react'
+import { AuthContext } from './provider/AuthProvider'
+import { Auth } from './firebase/firebase.config'
+import { signOut } from 'firebase/auth'
 
 function App() {
+    const { user } = useContext(AuthContext)
+    const CarDatas = useLoaderData()
+
+    const handleSignOut = () => {
+        signOut(Auth)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
     return (
         <>
             <div className="navbar bg-base-100 shadow-sm">
@@ -33,7 +49,7 @@ function App() {
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
                         >
                             <li>
-                                <Link>Add Car</Link>
+                                <Link to="/add">Add Car</Link>
                             </li>
                             <li>
                                 {' '}
@@ -48,7 +64,7 @@ function App() {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         <li>
-                            <Link>Add Car</Link>
+                            <Link to="/add">Add Car</Link>
                         </li>
                         <li>
                             {' '}
@@ -57,10 +73,40 @@ function App() {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <Link to="/register" className="btn">
-                        Register
-                    </Link>
+                    {user?.email ? (
+                        <div>
+                            {user?.email}
+                            <button
+                                onClick={handleSignOut}
+                                className="ml-8 cursor-pointer"
+                            >
+                                LogOut
+                            </button>
+                        </div>
+                    ) : (
+                        <Link to="/register" className="btn">
+                            Register
+                        </Link>
+                    )}
                 </div>
+            </div>
+            <div className="grid grid-cols-3">
+                {CarDatas.map((car) => (
+                    <div className="card bg-base-100 w-96 shadow-sm">
+                        <figure>
+                            <img src={car.photo} alt="Shoes" />
+                        </figure>
+                        <div className="card-body">
+                            <h2 className="card-title">{car.name}</h2>
+                            <p>{car.email}</p>
+                            <div className="card-actions justify-end">
+                                <Link className="btn btn-primary">
+                                    show more
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
         </>
     )

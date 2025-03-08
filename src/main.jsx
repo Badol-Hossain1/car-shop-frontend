@@ -6,11 +6,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import AuthProvider from './provider/AuthProvider.jsx'
+import AddCar from './components/AddCar.jsx'
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App></App>,
+        loader: () => fetch('http://localhost:4000/')
     },
     {
         path: '/login',
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: '/register',
         element: <Register></Register>,
+    },
+    {
+        path: '/add',
+        element: <AddCar></AddCar>,
     },
 ])
 createRoot(document.getElementById('root')).render(

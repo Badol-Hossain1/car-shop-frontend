@@ -4,7 +4,8 @@ import { AuthContext } from '../provider/AuthProvider'
 import Swal from 'sweetalert2'
 
 const Login = () => {
-    const { loginUser } = useContext(AuthContext)
+    const { loginUser, user } = useContext(AuthContext)
+    console.log('🚀 ~ Login ~ user:', user)
     const handleLogin = (e) => {
         e.preventDefault()
         const Form = new FormData(e.target)
