@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { AuthContext } from '../provider/AuthProvider'
 import Swal from 'sweetalert2'
 
 const Login = () => {
     const { loginUser, user } = useContext(AuthContext)
-    console.log('🚀 ~ Login ~ user:', user)
+    const location = useLocation()
+    const navigate = useNavigate()
+    console.log('🚀 ~ Login ~ location:', location)
     const handleLogin = (e) => {
         e.preventDefault()
         const Form = new FormData(e.target)
@@ -16,6 +18,7 @@ const Login = () => {
                 console.log(res.user)
                 if (res?.user) {
                     Swal.fire(`welcome ${res?.user?.email}`)
+                    navigate(location?.state)
                 }
             })
             .catch((err) => {

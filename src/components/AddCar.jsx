@@ -1,7 +1,11 @@
+import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router'
+import { AuthContext } from '../provider/AuthProvider'
 
 const AddCar = () => {
     const navigate = useNavigate()
+    const {user } = useContext(AuthContext)
+    console.log("🚀 ~ AddCar ~ user:", user)
     const handleAdd = (e) => {
         e.preventDefault()
         const Form = new FormData(e.target)

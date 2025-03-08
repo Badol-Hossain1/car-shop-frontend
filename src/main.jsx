@@ -8,6 +8,7 @@ import Register from './components/Register.jsx'
 import AuthProvider from './provider/AuthProvider.jsx'
 import AddCar from './components/AddCar.jsx'
 import FindOne from './components/FindOne.jsx'
+import Private from './private/Private.jsx'
 
 const router = createBrowserRouter([
     {
@@ -25,11 +26,19 @@ const router = createBrowserRouter([
     },
     {
         path: '/add',
-        element: <AddCar></AddCar>,
+        element: (
+            <Private>
+                <AddCar></AddCar>
+            </Private>
+        ),
     },
     {
         path: '/find/:id',
-        element: <FindOne></FindOne>,
+        element: (
+            <Private>
+                <FindOne></FindOne>
+            </Private>
+        ),
         loader: ({ params }) =>
             fetch(`http://localhost:4000/find/${params.id}`),
     },
