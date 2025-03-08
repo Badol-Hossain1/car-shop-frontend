@@ -18,6 +18,17 @@ function App() {
                 console.log(err)
             })
     }
+
+    const handleDelete = (id) => {
+        console.log("🚀 ~ handleDelete ~ id:", id)
+        fetch(`http://localhost:4000/${id}`, {
+            method: 'DELETE',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+            })
+    }
     return (
         <>
             <div className="navbar bg-base-100 shadow-sm">
@@ -99,9 +110,18 @@ function App() {
                         <div className="card-body">
                             <h2 className="card-title">{car.name}</h2>
                             <p>{car.email}</p>
-                            <div className="card-actions justify-end">
-                                <Link className="btn btn-primary">
+                            <div className="card-actions justify-between">
+                                <Link
+                                    to={`/find/${car?._id}`}
+                                    className="btn btn-primary"
+                                >
                                     show more
+                                </Link>
+                                <Link
+                                    onClick={() => handleDelete(car?._id)}
+                                    className="btn btn-primary"
+                                >
+                                    delete
                                 </Link>
                             </div>
                         </div>

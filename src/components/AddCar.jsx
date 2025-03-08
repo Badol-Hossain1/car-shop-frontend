@@ -1,6 +1,7 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 const AddCar = () => {
+    const navigate = useNavigate()
     const handleAdd = (e) => {
         e.preventDefault()
         const Form = new FormData(e.target)
@@ -17,6 +18,11 @@ const AddCar = () => {
             body: JSON.stringify(data),
         })
             .then((res) => res.json())
+            .then((data) => {
+                if (data) {
+                    navigate('/')
+                }
+            })
             .catch((err) => console.log(err))
     }
     return (

@@ -7,12 +7,13 @@ import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import AuthProvider from './provider/AuthProvider.jsx'
 import AddCar from './components/AddCar.jsx'
+import FindOne from './components/FindOne.jsx'
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App></App>,
-        loader: () => fetch('http://localhost:4000/')
+        loader: () => fetch('http://localhost:4000/'),
     },
     {
         path: '/login',
@@ -25,6 +26,12 @@ const router = createBrowserRouter([
     {
         path: '/add',
         element: <AddCar></AddCar>,
+    },
+    {
+        path: '/find/:id',
+        element: <FindOne></FindOne>,
+        loader: ({ params }) =>
+            fetch(`http://localhost:4000/find/${params.id}`),
     },
 ])
 createRoot(document.getElementById('root')).render(
