@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router'
+import { AuthContext } from '../provider/AuthProvider'
+import Swal from 'sweetalert2'
 
 const Login = () => {
+    const { loginUser } = useContext(AuthContext)
+    const handleLogin = (e) => {
+        e.preventDefault()
+        const Form = new FormData(e.target)
+        const email = Form.get('email')
+        const pass = Form.get('password')
+        loginUser(email, pass)
+            .then((res) => {
+                console.log(res.user)
+                if (res?.user) {
+                    Swal.fire(`welcome ${res?.user?.email}`)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
     return (
         <div>
             <div className="hero bg-base-200 min-h-screen">
@@ -15,7 +34,7 @@ const Login = () => {
                         </p>
                     </div>
                     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                        <form className="card-body">
+                        <form onSubmit={handleLogin} className="card-body">
                             <fieldset className="fieldset">
                                 <label className="fieldset-label">Email</label>
                                 <input

@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router'
+import { AuthContext } from '../provider/AuthProvider'
+import Swal from 'sweetalert2'
 
 const Register = () => {
+    const { createUser } = useContext(AuthContext)
+    const handleRegister = (e) => {
+        e.preventDefault()
+        const Form = new FormData(e.target)
+        const email = Form.get('email')
+        const pass = Form.get('password')
+        createUser(email, pass)
+            .then((res) => {
+                console.log('done', res)
+                if (res?.user) {
+                    Swal.fire(`Created user ${res?.user?.email}`)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
     return (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -14,7 +33,7 @@ const Register = () => {
                     </p>
                 </div>
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                    <form className="card-body">
+                    <form onSubmit={handleRegister} className="card-body">
                         <fieldset className="fieldset">
                             <label className="fieldset-label">Email</label>
                             <input
